@@ -1,5 +1,6 @@
 ## Installation
-Make sure that you have installed easyadmin and webpack. Install package:
+Make sure that you have installed symfony bundles `admin` and `webpack`.
+Install package:
 ```
 $ composer require yaroslavche/easyadminlte
 $ yarn install --force
@@ -32,4 +33,20 @@ class DashboardController extends AbstractDashboardController
             ->addWebpackEncoreEntry('easyadminlte');
     }
 }
+```
+
+## Troubleshooting
+Could not find a version of package
+```json
+# composer.json
+"minimum-stability": "dev",
+```
+yarn watch Missed import
+```shell
+$ yarn add --dev @fortawesome/fontawesome-free bootstrap jquery admin-lte
+```
+There are no registered paths for namespace "!EasyAdminLTE".
+```php
+# config/bundles.php
+Yaroslavche\EasyAdminLTE\EasyAdminLTEBundle::class => ['all' => true],
 ```
