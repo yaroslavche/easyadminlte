@@ -1,5 +1,6 @@
 ```
 $ composer require yaroslavche/easyadminlte
+$ yarn add --dev @fortawesome/fontawesome-free bootstrap jquery admin-lte
 $ yarn install --force
 $ yarn watch
 ```
