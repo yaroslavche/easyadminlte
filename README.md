@@ -16,23 +16,12 @@ Build assets
 ```shell
 $ yarn watch
 ```
-Override template and add webpack entry
+Extend `DashboardController` from `AbstractAdminLTEDashboardController` instead of `AbstractDashboardController`
 ```php
 # src/Controller/Admin/DashboardController.php
-class DashboardController extends AbstractDashboardController
-{
-    public function configureCrud(): Crud
-    {
-        return parent::configureCrud()
-            ->overrideTemplate('layout', '@EasyAdminLTE/layout.html.twig');
-    }
+use Yaroslavche\EasyAdminLTE\Controller\AbstractAdminLTEDashboardController;
 
-    public function configureAssets(): Assets
-    {
-        return parent::configureAssets()
-            ->addWebpackEncoreEntry('easyadminlte');
-    }
-}
+class DashboardController extends AbstractAdminLTEDashboardController
 ```
 
 ## Troubleshooting
