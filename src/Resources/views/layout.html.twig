@@ -1,0 +1,210 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block head_stylesheets %}{% endblock %}
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% block body %}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            {% for menuItem in ea.userMenu.items %}
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ menuItem.linkUrl }}" class="nav-link">{{ menuItem.label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                    <i class="fas fa-search"></i>
+                </a>
+                <div class="navbar-search-block">
+                    <form class="form-inline">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                                   aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fa fa-filter"></i>
+                    <span class="badge badge-warning navbar-badge">1</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-header">Filters: 1</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> enabled
+                        <span class="float-right text-muted text-sm">true</span>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                    <i class="fas fa-th-large"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+        <a href="{{ path('admin') }}" class="brand-link">
+            <span class="brand-text font-weight-light">{{ ea.dashboardTitle }}</span>
+        </a>
+
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    {% if ea.userMenu.avatarUrl %}
+                        <img src="{{ asset(ea.userMenu.avatarUrl) }}" class="img-circle elevation-2" alt="">
+                    {% else %}
+                        <span class="user-avatar">
+                        <span class="fa-stack">
+                            <i class="user-avatar-icon-background fas fa-square fa-stack-2x"></i>
+                            <i class="user-avatar-icon-foreground {{ ea.user is not null ? 'fa fa-user' : 'fas fa-user-slash' }} fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="info">
+                    <a href="{{ path('admin') }}" class="d-block">{{ ea.userMenu.name }}</a>
+                </div>
+            </div>
+
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                           aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+
+                    {# @var menuItem \EasyCorp\Bundle\EasyAdminBundle\Dto\MenuItemDto #}
+                    {% for menuItem in ea.mainMenu.items %}
+                        {% if menuItem.type is not same as('submenu') %}
+                            <li class="nav-item">
+                                <a href="{{ menuItem.linkUrl }}"
+                                   class="nav-link {{ menuItem.cssClass }} {{ menuItem.selected ? 'active' : '' }}">
+                                    <i class="nav-icon {{ menuItem.icon }}"></i>
+                                    <p>{{ menuItem.label }}</p>
+                                    {% if menuItem.badge %}
+                                        <span class="right badge badge-success">{{ menuItem.badge }}</span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item menu-open">
+                                <a class="nav-link">
+                                    <i class="nav-icon {{ menuItem.icon }}"></i>
+                                    <p>
+                                        {{ menuItem.label }}
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    {% for subItem in menuItem.subItems %}
+                                        <li class="nav-item">
+                                            <a href="{{ subItem.linkUrl }}"
+                                               class="nav-link {{ subItem.cssClass }} {{ subItem.selected ? 'active' : '' }}">
+                                                <i class="nav-icon {{ subItem.icon }}"></i>
+                                                <p>{{ subItem.label }}</p>
+                                                {% if subItem.badge %}
+                                                    <span class="right badge badge-success">{{ subItem.badge }}</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                </ul>
+            </nav>
+
+        </div>
+
+    </aside>
+
+    <div class="content-wrapper">
+
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        {% set pageTitle = ea.dashboardTitle %}
+                        <h1 class="m-0">{{ pageTitle }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">{{ pageTitle }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% block main %}{% endblock %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <aside class="control-sidebar control-sidebar-dark">
+
+        <div class="p-3">
+            <h5>Sidebar Title</h5>
+            <p>Sidebar content</p>
+        </div>
+    </aside>
+
+
+    <footer class="main-footer">
+        <strong>{{ ea.dashboardTitle }}</strong>
+    </footer>
+</div>
+
+{% endblock %}
